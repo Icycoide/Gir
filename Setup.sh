@@ -15,6 +15,7 @@ main() {
     case $OPT in
         Y|y|Yes|YES|yes)
             echo "Ok!"
+            inma
         ;;
         *)
             niam || echo "FAIL | Installation fail"
