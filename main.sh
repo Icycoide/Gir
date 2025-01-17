@@ -100,6 +100,3 @@ function gir.reset() {
 }
 
 gir.main
-
-
-# test
