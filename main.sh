@@ -32,7 +32,14 @@ function gir.main() {
             git add $(ls | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
         ;;
         "Remove files from commit")
-            git rm $(ls | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
+            case $GIR_FORCEALL in
+                1|TRUE|true)
+                    git rm $(ls | gum filter --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...") -f
+                ;;
+                *)
+                    git rm $(ls | gum filter --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...")
+                ;;
+            esac
         ;;
         "Commit")
             git commit -m "$(gum input --cursor.foreground="#fe640b" --width 50 --placeholder "Summary of changes")" \
@@ -48,7 +55,7 @@ function gir.main() {
         	git stash
         ;;
         "Switch branch")
-            git checkout $(git branch | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select hash to undo" --prompt="| " --indicator="> " | sed 's/* //g' | sed 's/ //g')
+            git checkout $(git branch | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select branch to switch to" --prompt="| " --indicator="> " | sed 's/* //g' | sed 's/ //g')
         ;;
         "(Re)initialise repository")
         	git init
@@ -104,7 +111,7 @@ function gir.wrongbranch() {
 }
 
 function gir.undocommit() {
-    SEL_HASH=$(git log --oneline | gum filter | cut -d' ' -f1)
+    SEL_HASH=$(git log --oneline | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1)
     git revert $SEL_HASH
 }
 
