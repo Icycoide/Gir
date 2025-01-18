@@ -3,7 +3,7 @@
 function gir.main() {
     clear
     git remote -v
-    MENU_CHOICE=$(gum filter --header.foreground="#fab387" --unselected-prefix.foreground="#fab387" --selected-indicator.foreground="#fab387" --indicator.foreground="#fab387" --match.foreground="#fab387" --prompt="| " --indicator=">" --header="Current directory: $PWD" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "(Destructive) Reset to remote state" "(Re)initialise repository" "Quit")
+    MENU_CHOICE=$(gum filter --header.foreground="#fab387" --unselected-prefix.foreground="#fab387" --selected-indicator.foreground="#fab387" --indicator.foreground="#fab387" --match.foreground="#fab387" --prompt="| " --indicator=">" --header="Current directory: $PWD" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "(Destructive) Reset to remote state" "(Re)initialise repository" "Quit")
     case $MENU_CHOICE in
         "Time Machine")
             gir.timemachine
@@ -106,8 +106,8 @@ function gir.undofile() {
 
 function gir.reset() {
     git fetch origin
-    git checkout master
-    git reset --hard origin/master
+    git checkout master || git checkout main
+    git reset --hard origin/master || git reset --hard origin/main
     git clean -d --force
 }
 
