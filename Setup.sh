@@ -103,7 +103,7 @@ Other: Input any path"
 			echo "Ok!"
 		;;
 	esac
-    sudo wget -O $INSTALL_PATH/gir https://github.com/Icycoide/Gir/releases/download/v0.1.0/main.sh || echo "FAIL | Either failed download or invalid path or sudo does not exist."
+    sudo wget -O $INSTALL_PATH/gir https://github.com/Icycoide/Gir/releases/download/v0.2.3/main.sh || echo "FAIL | Either failed download or invalid path or sudo does not exist."
     sudo chmod +x $INSTALL_PATH/gir || echo "FAIL | Either insufficient permissions or file does not exist or sudo does not exist."
 }
 

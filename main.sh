@@ -2,8 +2,7 @@
 
 function gir.main() {
     clear
-    git remote -v
-    MENU_CHOICE=$(gum filter --header.foreground="#fe640b" --unselected-prefix.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --prompt="| " --indicator=">" --header="Current directory: $PWD" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "Switch branch" "(Destructive) Reset to remote state" "(Re)initialise repository" "About" "Quit")
+    MENU_CHOICE=$(gum filter --header.foreground="#fe640b" --unselected-prefix.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --prompt="| " --indicator=">" --header="Repository: $PWD ($(git branch | grep "*" | sed 's/* //g'))" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "Switch branch" "(Destructive) Reset to remote state" "(Re)initialise repository" "Information about current repo" "About" "Quit")
     case $MENU_CHOICE in
         "Time Machine")
             gir.timemachine
@@ -49,13 +48,18 @@ function gir.main() {
         	git stash
         ;;
         "Switch branch")
-            git checkout $(git branch | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Select hash to undo" --prompt="| " --indicator="> " | sed 's/*//g')
+            git checkout $(git branch | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select hash to undo" --prompt="| " --indicator="> " | sed 's/* //g' | sed 's/ //g')
         ;;
         "(Re)initialise repository")
         	git init
         ;;
         "(Destructive) Reset to remote state")
             gum confirm "You are about to reset this repository to the remote state, which will delete all untracked files and overwrite everything with whatever is stored remotely. Are you sure?" --affirmative="Yes, reset!" --negative="No, I changed my mind." --prompt.foreground="#d20f39" --selected.background="#d20f39" && gir.reset || echo "Operation cancelled."
+        ;;
+        "Information about current repo")
+            git remote -v
+            echo "           Branch | $(git branch | grep "*" | sed 's/* //g')"
+            echo "Current directory | $PWD"
         ;;
         "About")
         	gir.about
