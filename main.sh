@@ -136,11 +136,11 @@ $(git --version)
 host system kernel: $(uname -sr)
 
 learn more about this release at:
-https://github.com/Icycoide/Gir/releases/tag/v0.2.4"
+https://github.com/Icycoide/Gir/releases/tag/v0.2.3"
 }
 
 function gir.variables() {
-	GIR_VERSION=0.2.4
+	GIR_VERSION=testing
 }
 
 gir.variables
