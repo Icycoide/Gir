@@ -45,11 +45,14 @@ function gir.main() {
         "Pull changes")
             git pull
         ;;
+        "Stash changes")
+        	git stash
+        ;;
         "(Re)initialise repository")
         	git init
         ;;
         "(Destructive) Reset to remote state")
-            gum confirm "You are about to reset this repository to the remote state, which will delete all untracked files and overwrite everything with whatever is stored remotely. Are you sure?" --affirmative="Yes, reset!" --negative="No, I changed my mind." --prompt.foreground="#d20f39" --selected.background="#d20f39" && gum spin --spinner minidot --title "Resetting repository to remote state..." -- gir.reset || echo "Operation cancelled."
+            gum confirm "You are about to reset this repository to the remote state, which will delete all untracked files and overwrite everything with whatever is stored remotely. Are you sure?" --affirmative="Yes, reset!" --negative="No, I changed my mind." --prompt.foreground="#d20f39" --selected.background="#d20f39" && gir.reset || echo "Operation cancelled."
         ;;
         "Quit")
             exit
@@ -109,6 +112,3 @@ function gir.reset() {
 }
 
 gir.main
-
-# --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm..."
-# --no-limit --header "Select hash to undo" --prompt="| " --indicator="> "
