@@ -15,7 +15,7 @@ main() {
     case $OPT in
         Y|y|Yes|YES|yes)
             echo "Ok!"
-            inma
+            inma || echo "FAIL | Installation fail"
         ;;
         *)
             niam || echo "FAIL | Installation fail"
@@ -87,8 +87,23 @@ Install Gum through:
 }
 
 inma() {
-    read -p "What directory should Gir be installed to?" INSTALL_PATH
-    sudo wget -O $INSTALL_PATH/gir https://github.com/Icycoide/Gir/releases/download/v0.1.0/main.sh || echo "FAIL | Either failed download or invalid path or sudo does not exist."
+	echo "
+    1: /usr/bin/
+    2: /usr/local/bin/
+Other: Input any path"
+    read -p "What directory should Gir be installed to? >" INSTALL_PATH
+	case $INSTALL_PATH in
+		1)
+			INSTALL_PATH=/usr/bin
+		;;
+		2)
+			INSTALL_PATH=/usr/local/bin
+		;;
+		*)
+			echo "Ok!"
+		;;
+	esac
+    sudo wget -O $INSTALL_PATH/gir https://github.com/Icycoide/Gir/releases/download/v0.2.0/main.sh || echo "FAIL | Either failed download or invalid path or sudo does not exist."
     sudo chmod +x $INSTALL_PATH/gir || echo "FAIL | Either insufficient permissions or file does not exist or sudo does not exist."
 }
 
