@@ -48,8 +48,8 @@ function gir.main() {
         "Stash changes")
         	git stash
         ;;
-        "")
-            gir.switchbranch
+        "Switch branch")
+            git checkout $(git branch | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Select hash to undo" --prompt="| " --indicator="> " | sed 's/*//g')
         ;;
         "(Re)initialise repository")
         	git init
