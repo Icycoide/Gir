@@ -52,7 +52,7 @@ function gir.main() {
             exit
         ;;
     esac
-    read -p "Finished action $MENU_CHOICE. Press Enter to proceed."
+    read -p "Finished action \"$MENU_CHOICE\". Press Enter to proceed."
     gir.main
 }
 
