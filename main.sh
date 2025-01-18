@@ -3,7 +3,7 @@
 function gir.main() {
     clear
     git remote -v
-    MENU_CHOICE=$(gum choose --header="Current directory: $PWD" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo commit" "Read file" "Add files to commit" "Commit" "Push changes" "Pull changes" "(Destructive) Reset to remote state" "Quit")
+    MENU_CHOICE=$(gum choose --header="Current directory: $PWD" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo commit" "Read file" "Add files to commit" "Commit" "Push changes" "Pull changes" "(Destructive) Reset to remote state" "(Re)initialise repository" "Quit")
     case $MENU_CHOICE in
         "Time Machine")
             gir.timemachine
@@ -42,6 +42,9 @@ function gir.main() {
         "Pull changes")
             git pull
         ;;
+        "(Re)initialise repository")
+        	git init
+        ;;
         "(Destructive) Reset to remote state")
             gum confirm "You are about to reset this repository to the remote state, which will delete all untracked files and overwrite everything with whatever is stored remotely. Are you sure?" --affirmative="Yes, reset!" --negative="No, I changed my mind." --prompt.foreground="#d20f39" && gum spin --spinner minidot --title "Resetting repository to remote state..." -- gir.reset || echo "Operation cancelled."
         ;;
@@ -49,6 +52,7 @@ function gir.main() {
             exit
         ;;
     esac
+    read -p "Finished action $OPT. Press Enter to proceed."
     gir.main
 }
 
