@@ -3,7 +3,7 @@
 function gir.main() {
     clear
     git remote -v
-    MENU_CHOICE=$(gum filter --header.foreground="#fab387" --unselected-prefix.foreground="#fab387" --selected-indicator.foreground="#fab387" --indicator.foreground="#fab387" --match.foreground="#fab387" --prompt="| " --indicator=">" --header="Current directory: $PWD" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "(Destructive) Reset to remote state" "(Re)initialise repository" "Quit")
+    MENU_CHOICE=$(gum filter --header.foreground="#fab387" --unselected-prefix.foreground="#fab387" --selected-indicator.foreground="#fab387" --indicator.foreground="#fab387" --match.foreground="#fab387" --prompt="| " --indicator=">" --header="Current directory: $PWD" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "(Destructive) Reset to remote state" "(Re)initialise repository" "About" "Quit")
     case $MENU_CHOICE in
         "Time Machine")
             gir.timemachine
@@ -53,6 +53,9 @@ function gir.main() {
         ;;
         "(Destructive) Reset to remote state")
             gum confirm "You are about to reset this repository to the remote state, which will delete all untracked files and overwrite everything with whatever is stored remotely. Are you sure?" --affirmative="Yes, reset!" --negative="No, I changed my mind." --prompt.foreground="#d20f39" --selected.background="#d20f39" && gir.reset || echo "Operation cancelled."
+        ;;
+        "About")
+        	gir.about
         ;;
         "Quit")
             exit
@@ -111,4 +114,20 @@ function gir.reset() {
     git clean -d --force
 }
 
+function gir.about() {
+	echo "
+gir version $GIR_VERSION
+$(gum --version)
+$(git --version)
+host system kernel: $(uname -sr)
+
+learn more about this release at:
+https://github.com/Icycoide/Gir/releases/tag/v$GIR_VERSION"
+}
+
+function gir.variables() {
+	GIR_VERSION=0.2.3
+}
+
+gir.variables
 gir.main
