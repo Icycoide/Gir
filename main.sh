@@ -3,7 +3,7 @@
 function gir.main() {
     clear
     git remote -v
-    MENU_CHOICE=$(gum filter --header.foreground="#fe640b" --unselected-prefix.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --prompt="| " --indicator=">" --header="Current directory: $PWD" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "(Destructive) Reset to remote state" "(Re)initialise repository" "About" "Quit")
+    MENU_CHOICE=$(gum filter --header.foreground="#fe640b" --unselected-prefix.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --prompt="| " --indicator=">" --header="Current directory: $PWD" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "Switch branch" "(Destructive) Reset to remote state" "(Re)initialise repository" "About" "Quit")
     case $MENU_CHOICE in
         "Time Machine")
             gir.timemachine
