@@ -35,4 +35,10 @@ Updating is as simple as going to the source repository and running the followin
 git pull
 ```
 
+## (on the Testing branch only) Git won't let me do this without specifying -f! How do I make Gir force something??
+You launch Gir with the environment variable GIR_FORCEALL set to either 1, TRUE or true. Observe the example below:
+```bash
+GIR_FORCEALL=TRUE /path/to/executable/gir
+```
+
 This is licensed under the MIT license
