@@ -2,7 +2,7 @@
 
 function gir.main() {
     clear
-    MENU_CHOICE=$(gum filter --header.foreground="#fe640b" --unselected-prefix.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --prompt="| " --indicator=">" --header="Repository: $PWD ($(git branch | grep "*" | sed 's/* //g'))" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "Switch branch" "Make new branch" "(Destructive) Reset to remote state" "(Re)initialise repository" "Information about current repo" "About" "Quit")
+    MENU_CHOICE=$(gum filter --header.foreground="#fe640b" --unselected-prefix.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --prompt="| " --indicator=">" --header="Repository: $PWD ($(git branch | grep "*" | sed 's/* //g'))" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "Switch branch" "(Destructive) Reset to remote state" "(Re)initialise repository" "Information about current repo" "About" "Quit")
     case $MENU_CHOICE in
         "Time Machine")
             gir.timemachine
@@ -55,10 +55,7 @@ function gir.main() {
         	git stash
         ;;
         "Switch branch")
-            git checkout $(git branch | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-strict --header "Select branch to switch to" --prompt="| " --indicator="> " | sed 's/* //g' | sed 's/ //g')
-        ;;
-        "Make new branch")
-            git checkout -b $(gum input --cursor.foreground="#fe640b" --placeholder "Enter the name of the new branch (no spaces, only hyphens) or leave empty to cancel. (Basing off $(git branch | grep "*"))")
+            git checkout $(git branch | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select branch to switch to" --prompt="| " --indicator="> " | sed 's/* //g' | sed 's/ //g')
         ;;
         "(Re)initialise repository")
         	git init
@@ -106,7 +103,8 @@ function gir.editcommit() {
 function gir.wrongbranch() {
     gum spin --spinner minidot --title "Undoing last commit..." -- git reset HEAD~ --soft
     git stash
-    git checkout $(git branch | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-strict --header "Select the correct branch to commit to" --prompt="| " --indicator="> " | sed 's/* //g' | sed 's/ //g')
+    CORRECT_BRANCH=$(gum input --placeholder "Input the name of the correct branch")
+    gum spin --spinner minidot --title "Running git checkout..." -- git checkout $CORRECT_BRANCH
     git stash pop
     git add $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
     git commit -m
@@ -138,7 +136,11 @@ $(git --version)
 host system kernel: $(uname -sr)
 
 learn more about this release at:
+<<<<<<< HEAD
 https://github.com/Icycoide/Gir/releases/tag/v$GIR_VERSION"
+=======
+https://github.com/Icycoide/Gir/releases/tag/v0.2.4"
+>>>>>>> parent of fa004b0 (Final touches before merging Testing)
 }
 
 function gir.variables() {
