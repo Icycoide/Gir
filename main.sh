@@ -29,15 +29,15 @@ function gir.main() {
             gum pager < $(gum file --height=5 --selected.foreground="#fe640b" --all --cursor.foreground="#fe640b" --directory.foreground="#fe640b")
         ;;
         "Add files to commit")
-            git add $(ls | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
+            git add $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
         ;;
         "Remove files from commit")
             case $GIR_FORCEALL in
                 1|TRUE|true)
-                    git rm $(ls | gum filter --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...") -f
+                    git rm $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...") -f
                 ;;
                 *)
-                    git rm $(ls | gum filter --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...")
+                    git rm $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...")
                 ;;
             esac
         ;;
@@ -55,7 +55,7 @@ function gir.main() {
         	git stash
         ;;
         "Switch branch")
-            git checkout $(git branch | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select branch to switch to" --prompt="| " --indicator="> " | sed 's/* //g' | sed 's/ //g')
+            git checkout $(git branch | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select branch to switch to" --prompt="| " --indicator="> " | sed 's/* //g' | sed 's/ //g')
         ;;
         "(Re)initialise repository")
         	git init
@@ -91,7 +91,7 @@ function gir.timemachine() {
 
 function gir.tecommit() {
     gum confirm "Are you sure you want to amend the last commit? It is not recommended to do this with public commits" --selected.background="#fe640b" --prompt.foreground="#fe640b" || kill -INT $$
-    git add $(ls | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
+    git add $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
     git commit --amend --no-edit
 }
 
@@ -106,17 +106,17 @@ function gir.wrongbranch() {
     CORRECT_BRANCH=$(gum input --placeholder "Input the name of the correct branch")
     gum spin --spinner minidot --title "Running git checkout..." -- git checkout $CORRECT_BRANCH
     git stash pop
-    git add $(ls | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
+    git add $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
     git commit -m
 }
 
 function gir.undocommit() {
-    SEL_HASH=$(git log --oneline | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1)
+    SEL_HASH=$(git log --oneline | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1)
     git revert $SEL_HASH
 }
 
 function gir.undofile() {
-    git checkout $(git log --oneline | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1) -- $(gum file --show-help --all --file --directory --height=5 --selected.foreground="#fe640b" --cursor.foreground="#fe640b" --directory.foreground="#fe640b")
+    git checkout $(git log --oneline | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1) -- $(gum file --show-help --all --file --directory --height=5 --selected.foreground="#fe640b" --cursor.foreground="#fe640b" --directory.foreground="#fe640b")
     git commit -m "$(gum input --width 50 --placeholder "Summary of changes (wow you didnt even have to copy-paste to undo)")" \
                -m "$(gum write --width 80 --placeholder "Details of changes")"
 }
@@ -136,7 +136,7 @@ $(git --version)
 host system kernel: $(uname -sr)
 
 learn more about this release at:
-https://github.com/Icycoide/Gir/releases/tag/v0.2.3"
+https://github.com/Icycoide/Gir/releases/tag/v0.2.4"
 }
 
 function gir.variables() {
