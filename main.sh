@@ -111,12 +111,12 @@ function gir.wrongbranch() {
 }
 
 function gir.undocommit() {
-    SEL_HASH=$(git log --oneline | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1)
+    SEL_HASH=$(git log --oneline | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1)
     git revert $SEL_HASH
 }
 
 function gir.undofile() {
-    git checkout $(git log --oneline | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1) -- $(gum file --show-help --all --file --directory --height=5 --selected.foreground="#fe640b" --cursor.foreground="#fe640b" --directory.foreground="#fe640b")
+    git checkout $(git log --oneline | gum filter --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --header "Select hash to undo" --prompt="| " --indicator="> " | cut -d' ' -f1) -- $(gum file --show-help --all --file --directory --height=5 --selected.foreground="#fe640b" --cursor.foreground="#fe640b" --directory.foreground="#fe640b")
     git commit -m "$(gum input --width 50 --placeholder "Summary of changes (wow you didnt even have to copy-paste to undo)")" \
                -m "$(gum write --width 80 --placeholder "Details of changes")"
 }
