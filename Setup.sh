@@ -1,12 +1,19 @@
 #!/bin/sh
 
+FORE_YELLOW="$(tput setaf 3)"
+STYLE_RESET="$(tput sgr0)"
+
 failure() {
     echo "FAIL | $@"
     exit 127
 }
 
+header() {
+    echo "${FORE_YELLOW}$@${STYLE_RESET}"
+}
+
 check_dependencies() {
-    echo "Automatically detecting dependencies..."
+    header "Automatically detecting dependencies..."
     printf -- "- git: "
     if ! command -v -- "git" > /dev/null 2>&1; then
         echo "not found."
@@ -86,6 +93,7 @@ Install Gum through:
 }
 
 install_gir() {
+    header "Installing Gir..."
 	echo "    1: /usr/bin/
     2: /usr/local/bin/
 Other: Input any path"
@@ -104,7 +112,6 @@ Other: Input any path"
     sudo wget -O $INSTALL_PATH/gir https://github.com/Icycoide/Gir/releases/download/v0.2.5/main.sh || failure "Either failed download or invalid path or sudo does not exist."
     sudo chmod +x $INSTALL_PATH/gir || failure "Either insufficient permissions or file does not exist or sudo does not exist."
 }
-
 
 check_dependencies
 install_gir
