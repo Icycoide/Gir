@@ -1,41 +1,48 @@
 #!/bin/sh
 
-main() {
-    read -p "Are git and bash installed? Y/N > " OPT
-    case $OPT in
-        Y|y|Yes|YES|yes)
-            echo "Continuing..."
-        ;;
-        *)
-            echo "Come back later!"
-            exit 1
-        ;;
-    esac
-    read -p "Is gum installed? Y/N > " OPT
-    case $OPT in
-        Y|y|Yes|YES|yes)
-            echo "Ok!"
-            inma || echo "FAIL | Installation fail"
-        ;;
-        *)
-            niam || echo "FAIL | Installation fail"
-        ;;
-    esac
+FORE_YELLOW="$(tput setaf 3)"
+STYLE_RESET="$(tput sgr0)"
+
+failure() {
+    echo "FAIL | $@"
+    exit 127
 }
 
-niam() {
+header() {
+    echo "${FORE_YELLOW}$@${STYLE_RESET}"
+}
+
+check_dependencies() {
+    header "Automatically detecting dependencies..."
+    printf -- "- git: "
+    if ! command -v -- "git" > /dev/null 2>&1; then
+        echo "not found."
+        failure "Setup currently doesn't handle installing 'git' automatically."
+    else
+        echo "OK."
+    fi
+    printf -- "- gum: "
+    if ! command -v -- "gum" > /dev/null 2>&1; then
+        echo "not found."
+        install_dep_gum
+    else
+        echo "OK."
+    fi
+}
+
+install_dep_gum() {
     echo "
 Install Gum through:
-1:Homebrew
-2:Pacman
-3:Nix(-env)
-4:Flox
-5:Winget
-6:Scoop
-7:APT
-8:RPM(YUM)
-9:RPM(DNF)
-10:RPM(Zypper)"
+ 1: Homebrew
+ 2: Pacman
+ 3: Nix(-env)
+ 4: Flox
+ 5: Winget
+ 6: Scoop
+ 7: APT
+ 8: RPM(YUM)
+ 9: RPM(DNF)
+10: RPM(Zypper)"
     read -p "Installation method > " OPT
     case $OPT in
         1)
@@ -83,15 +90,14 @@ Install Gum through:
                 ;;
             esac
     esac
-    inma || echo "Fail | Copy file failed"
 }
 
-inma() {
-	echo "
-    1: /usr/bin/
+install_gir() {
+    header "Installing Gir..."
+	echo "    1: /usr/bin/
     2: /usr/local/bin/
 Other: Input any path"
-    read -p "What directory should Gir be installed to? >" INSTALL_PATH
+    read -p "What directory should Gir be installed to? > " INSTALL_PATH
 	case $INSTALL_PATH in
 		1)
 			INSTALL_PATH=/usr/bin
@@ -103,8 +109,9 @@ Other: Input any path"
 			echo "Ok!"
 		;;
 	esac
-    sudo wget -O $INSTALL_PATH/gir https://github.com/Icycoide/Gir/releases/download/v0.2.5/main.sh || echo "FAIL | Either failed download or invalid path or sudo does not exist."
-    sudo chmod +x $INSTALL_PATH/gir || echo "FAIL | Either insufficient permissions or file does not exist or sudo does not exist."
+    sudo wget -O $INSTALL_PATH/gir https://github.com/Icycoide/Gir/releases/download/v0.2.5/main.sh || failure "Either failed download or invalid path or sudo does not exist."
+    sudo chmod +x $INSTALL_PATH/gir || failure "Either insufficient permissions or file does not exist or sudo does not exist."
 }
 
-main || echo "FAIL | FAIL!"
+check_dependencies
+install_gir
