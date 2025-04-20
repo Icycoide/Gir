@@ -26,18 +26,18 @@ function gir.main() {
             gir.undocommit
         ;;
         "Read file")
-            gum pager < $(gum file --height=5 --selected.foreground="#fe640b" --all --cursor.foreground="#fe640b" --directory.foreground="#fe640b")
+            gum pager < $(gum file --selected.foreground="#fe640b" --all --cursor.foreground="#fe640b" --directory.foreground="#fe640b")
         ;;
         "Add files to commit")
-            git add $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
+            git add $(ls | gum filter --no-strict --header.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Add files" --prompt="| " --indicator="> " --selected-prefix "YES " --unselected-prefix " NO " --placeholder "Press TAB to select, Enter to confirm...")
         ;;
         "Remove files from commit")
             case $GIR_FORCEALL in
                 1|TRUE|true)
-                    git rm $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...") -f
+                    git rm $(ls | gum filter --no-strict --header.foreground="#fe640b" --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...") -f
                 ;;
                 *)
-                    git rm $(ls | gum filter --header.foreground="#fe640b" --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...")
+                    git rm $(ls | gum filter --no-strict --header.foreground="#fe640b" --selected-indicator.foreground="#d20f39" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --no-limit --header "Remove files" --prompt="| " --indicator="> " --selected-prefix "REMOVE " --unselected-prefix "  KEEP " --placeholder "Press TAB to select, Enter to confirm...")
                 ;;
             esac
         ;;
