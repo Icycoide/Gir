@@ -145,7 +145,7 @@ https://github.com/Icycoide/Gir/releases/tag/v$GIR_VERSION"
 }
 
 function gir.variables() {
-	GIR_VERSION=0.2.6
+	GIR_VERSION=0.2.7
 }
 
 gir.variables
