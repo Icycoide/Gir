@@ -2,7 +2,7 @@
 
 function gir.main() {
     clear
-    MENU_CHOICE=$(gum filter --header.foreground="#fe640b" --unselected-prefix.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --prompt="| " --indicator=">" --header="Repository: $PWD ($(git branch | grep "*" | sed 's/* //g'))" --placeholder="Option" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "Switch branch" "Make new branch" "(Destructive) Reset to remote state" "(Re)initialise repository" "Information about current repo" "About" "Quit")
+    MENU_CHOICE=$(gum filter --no-strict --header.foreground="#fe640b" --unselected-prefix.foreground="#fe640b" --selected-indicator.foreground="#fe640b" --indicator.foreground="#fe640b" --match.foreground="#fe640b" --prompt="| " --indicator=">" --header="Repository: $PWD ($(git branch | grep "*" | sed 's/* //g'))" --placeholder="Choose an option (or type in a git command e.g.\"add .\")" "Time Machine" "Add addition to last commit" "Edit last commit's message" "Correct an edit to a different branch" "Diff with fancy flag" "Undo file" "Undo commit" "Read file" "Add files to commit" "Remove files from commit" "Commit" "Push changes" "Pull changes" "Stash changes" "Switch branch" "Make new branch" "(Destructive) Reset to remote state" "(Re)initialise repository" "Information about current repo" "About" "Quit")
     case $MENU_CHOICE in
         "Time Machine")
             gir.timemachine
@@ -76,6 +76,9 @@ function gir.main() {
         ;;
         "Quit")
             exit
+        ;;
+        *)
+            git $MENU_CHOICE
         ;;
     esac
     read -p "Finished action \"$MENU_CHOICE\". Press Enter to proceed."
