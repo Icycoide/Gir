@@ -1,3 +1,5 @@
+> As part of Icycoide transitioning to Arctine, this repository is no longer being updated. The new repository is at [https://github.com/ArctineLabs/Gir](https://github.com/ArctineLabs/Gir).
+
 # Gir
 Combining Oh Shit, Git!?! and Gum
 
